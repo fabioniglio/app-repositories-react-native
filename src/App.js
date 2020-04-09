@@ -25,7 +25,7 @@ export default function App() {
     );
     repositories[repositoryIndex].likes = repository.likes;
     console.log(repositories[repositoryIndex].likes);
-    setRepositories(repositories);
+    setRepositories([...repositories]);
   }
 
   useEffect(() => {
@@ -60,7 +60,9 @@ export default function App() {
                   // Remember to replace "1" below with repository ID: {`repository-likes-${repository.id}`}
                   testID={`repository-likes-${repository.id}`}
                 >
-                  {repository.likes}
+                  {repository.likes > 1
+                    ? `${repository.likes} curtidas`
+                    : `${repository.likes} curtida`}
                 </Text>
               </View>
 
@@ -68,7 +70,7 @@ export default function App() {
                 style={styles.button}
                 onPress={() => handleLikeRepository(repository.id)}
                 // Remember to replace "1" below with repository ID: {`like-button-${repository.id}`}
-                testID={`like-button-1`}
+                testID={`like-button-${repository.id}`}
               >
                 <Text style={styles.buttonText}>Curtir</Text>
               </TouchableOpacity>
@@ -120,6 +122,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+    marginBottom: 25,
   },
   buttonText: {
     fontSize: 14,
