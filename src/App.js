@@ -19,13 +19,17 @@ export default function App() {
     // Implement "Like Repository" functionality
     const response = await api.post(`repositories/${id}/like`);
 
-    const repository = response.data;
-    const repositoryIndex = repositories.findIndex(
-      (repository) => repository.id === id
-    );
-    repositories[repositoryIndex].likes = repository.likes;
-    console.log(repositories[repositoryIndex].likes);
-    setRepositories([...repositories]);
+    const likedrepository = response.data;
+    console.log(likedrepository);
+    const repositoryUpdated = repositories.map((repository) => {
+      if (repository.id === id) {
+        return likedrepository;
+      } else {
+        return repository;
+      }
+    });
+    console.log(repositoryUpdated);
+    setRepositories(repositoryUpdated);
   }
 
   useEffect(() => {
@@ -60,9 +64,7 @@ export default function App() {
                   // Remember to replace "1" below with repository ID: {`repository-likes-${repository.id}`}
                   testID={`repository-likes-${repository.id}`}
                 >
-                  {repository.likes > 1
-                    ? `${repository.likes} curtidas`
-                    : `${repository.likes} curtida`}
+                  {repository.likes} curtida{repository.likes > 1 ? "s" : " "}
                 </Text>
               </View>
 
